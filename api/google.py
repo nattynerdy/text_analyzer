@@ -1,6 +1,8 @@
 from google.cloud import vision
+from dotenv import load_dotenv
 
 def detect_text(path):
+    load_dotenv()
 
     client = vision.ImageAnnotatorClient()
 

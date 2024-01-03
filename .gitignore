@@ -58,6 +58,8 @@ db.sqlite3-journal
 .pybuilder/
 target/
 
+# Secret Credentials
+credentials.json
 
 # IPython
 profile_default/
