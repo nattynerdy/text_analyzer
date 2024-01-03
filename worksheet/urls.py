@@ -16,7 +16,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from images import views as images
+from comments import views as comments
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("analyze-image", images.analyze_image),
+    path("images", images.all_images), 
+    path("image/<int:id>", images.one_image),
+    path("image/<int:id>/comment", comments.get_comments)
 ]
