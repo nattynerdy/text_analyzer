@@ -26,16 +26,10 @@ def detect_text(file_contents:bytes):
         response = client.text_detection(image=image)
         logging.info("Response from client recieved")
         texts = response.text_annotations
-        return_value += "Texts:"
+        return_value += "Discovered Text:"
         for text in texts:
             logging.debug("Text found:", text.description)
-            return_value += f'\n"{text.description}"'
-            vertices = [
-                f"({vertex.x},{vertex.y})" for vertex in text.bounding_poly.vertices
-            ]
-            bounds = "bounds: {}".format(",".join(vertices))
-            logging.debug("Text bounds:", bounds)
-            return_value += bounds
+            return_value += f'" {text.description},"'
             logging.debug("Current return value state:", return_value)
         if response.error.message:
             raise Exception(

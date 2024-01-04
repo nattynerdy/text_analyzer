@@ -1,19 +1,23 @@
+{% extends 'base.html' %}
+
 {% block title %}
     Image Details
 {% endblock title %}
 
 {% block content %}
-    <h1>Image Details<h1>
+    <h1>Image Details</h1>
     {% if user.isauthenticated %}
         <h2>Add comment on image</h2>
-        <form method="POST" action="{% url 'add_comment' image.id %}">
+        <form method="POST" action="{% url 'add_comment' image_upload.id %}">
             {% csrf_token %}
             {{ form.as_p }}
             <button type="submit">Comment</button>
         </form>
+    {% else %}
+        <p>You must login to see this content</p>
     {% endif %}
-    <img src="{{ image.image.url }}" alt="User-uploaded image containing text described below">
-    <p>{{ image.text }}</p>
+    <img src="{{ image_upload.image.url }}" alt="User-uploaded image containing text described below">
+    <p>{{ image_upload.text }}</p>
     <h2>Comments</h2>
     {% for comment in image.comments.all %}
         <div>
