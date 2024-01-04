@@ -15,7 +15,7 @@
     <img src="{{ image.image.url }}" alt="User-uploaded image containing text described below">
     <p>{{ image.text }}</p>
     <h2>Comments</h2>
-    {% for comment in image.comments %}
+    {% for comment in image.comments.all %}
         <div>
             <h3>{{ comment.author.username|default:"anonymous" }}</h3>
             <p>{{ comment.text }}</p>

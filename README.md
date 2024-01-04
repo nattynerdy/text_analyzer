@@ -12,7 +12,7 @@
 ## <a name="project" id="project"></a> Project Structure
 This project follows the <a href="https://docs.djangoproject.com/en/5.0/intro/tutorial01/">default structure</a> for a Django application.
 
-The root application configuration is in the worksheet folder and the comments and images contain the two Django apps. All urls are contained in the root worksheet urls.py (more on that in the API summary section). The images app contains all the static content and templates for the application; the comments app contains neither of these. Both comments and images map to database tables (more on that in the database schema section).
+The root application configuration is in the `worksheet` folder and the `comments` and `images` folders contain the two Django apps. All urls are contained in the root worksheet `urls.py` (more on that in the API summary section). The `images` app contains all the static content and templates for the application; the `comments` app contains neither of these. Both `comments` and `images` map to database tables (more on that in the database schema section). The `media` folder contains all the images uploaded by users.
 
 ## <a name="tech" id="tech"></a> Tech Overview
 In addition to the required Django modules and standard Python libraries that form the base of the application, the following additional technologies were used:
@@ -23,21 +23,28 @@ In addition to the required Django modules and standard Python libraries that fo
 
 ## <a name="api" id="api"></a> API Summary
 There are four API endpoints in the application:
-* `/analyze-image` (`POST` only):
-* `/images` (`GET` only):
-* `/image/<id>` (`GET` only):
-* `/image/<id>/comment` (`POST` only):
+* `/analyze-image` (`POST` only): Receives a request to upload an image from the user. Image is analyzed by the Google Image AI API. Text found by the API and the image are uploaded to the database.
+* `/images` (`GET` only): Loads all the images uploaded to the site on the home page.
+* `/image/<id>` (`GET` only): Loads all the comments and other details associated with an image on the image detail page.
+* `/image/<id>/comment` (`POST` only): Receives a request to add a comment under an image from a user. Requires the user to be logged in to access, and uses their username in the data associated with the comment.
 
 ## <a name="database" id="database"></a> Database Schema
-There are two tables in the application:
-* comments: Represent comments under each processed image.
-* images: Represent each processed image
+There are two custom tables in the application:
+* comments: Represent comments under each processed image (In application as Comment)
+* images: Represent each processed image (in application as ImageUpload)
 
-The columns for these two tables are represented as follows:
+There is also the standard users table provided by Django
+
+The columns for the two custom tables are represented as follows:
 * comments:
     * id: Primary key
+    * text: the content of the comment
+    * author: a foreign key to the users table (represents the person who wrote the comment)
+    * image: a foreign key to the images table (represents the image the comment is under)
 * images:
     * id: Primary key
+    * image: the actual uploaded image file
+    * text: the text that has been extracted from each image
 
 The images and comments have a one to many relationship, where every image can have any number of comments.
 
