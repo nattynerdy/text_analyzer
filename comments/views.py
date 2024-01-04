@@ -1,7 +1,7 @@
 from django.views.decorators.http import require_http_methods
 from django.shortcuts import redirect
-from forms import CommentForm
-from models import Comment
+from comments.forms import CommentForm
+from comments.models import Comment
 import logging
 
 """

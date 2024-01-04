@@ -1,9 +1,9 @@
 from django.views.decorators.http import require_http_methods
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpRequest
-from forms import ImageForm
-from models import ImageUpload
-from ..api import google
+from images.forms import ImageForm
+from images.models import ImageUpload
+from api import google
 import logging
 
 """
@@ -28,7 +28,7 @@ def analyze_image(request:HttpRequest):
             file_contents = image_upload.image.read()
             logging.debug("Sending file contents to Google API")
             image_text = google.detect_text(file_contents)
-            if image_text is not "":
+            if image_text != "":
                 logging.info("Text from Google API is ", image_text)
                 image_upload.text = image_text
                 image_upload.save()

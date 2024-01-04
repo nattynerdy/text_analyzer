@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from images.models import ImageUpload
 
 class Comment(models.Model):
     author = models.ForeignKey(
@@ -9,7 +10,7 @@ class Comment(models.Model):
         null=True
     )
     image = models.ForeignKey(
-        "ImageUpload",
+        ImageUpload,
         related_name="comments",
         on_delete=models.CASCADE
     )
