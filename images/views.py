@@ -1,7 +1,8 @@
 from django.views.decorators.http import require_http_methods
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth import authenticate, login
 from django.http import HttpRequest
-from images.forms import ImageForm
+from images.forms import ImageForm, LoginForm
 from images.models import ImageUpload
 from api import google
 import logging
@@ -85,3 +86,42 @@ def one_image(request, id):
         return render(request, "detail.html", context)
     except:
         logging.exception("An exception occurred when trying to load details on an image")
+
+"""
+This function renders the login page and 
+    allows the user to authenticate, 
+    which is necessary in order to post comments
+"""
+def user_login(request):
+    try:
+        logging.debug("Entered into view function for logging in")
+        if request.method == "POST":
+            logging.debug("Using POST method")
+            form = LoginForm(request.POST)
+            if form.is_valid():
+                logging.info("Submitted form to login is valid")
+                username = form.cleaned_data['username']
+                password = form.cleaned_data['password']
+                logging.debug("Preparing to authenticate")
+                user = authenticate(
+                    request,
+                    username=username,
+                    password=password,
+                )
+                if user is not None:
+                    logging.info("User is authenticated")
+                    login(request, user)
+                    return redirect("images")
+                else:
+                    logging.warning("User trying to log in not found")
+            else:
+                logging.warning("Submitted form to login is not valid")
+        elif request.method == "GET":
+            logging.debug("Using GET method")
+            form = LoginForm()
+        context = {
+            "form": form
+        }
+        return render(request, "login.html", context)
+    except:
+        logging.exception("An exception occurred when trying to log in the user")

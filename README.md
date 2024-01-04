@@ -28,6 +28,8 @@ There are four API endpoints in the application:
 * `/image/<id>` (`GET` only): Loads all the comments and other details associated with an image on the image detail page.
 * `/image/<id>/comment` (`POST` only): Receives a request to add a comment under an image from a user. Requires the user to be logged in to access, and uses their username in the data associated with the comment.
 
+There are also the `admin` and `login` links for the purposes of application administration and authenticaiton, respectively
+
 ## <a name="database" id="database"></a> Database Schema
 There are two custom tables in the application:
 * comments: Represent comments under each processed image (In application as Comment)

@@ -1,4 +1,5 @@
 from django.views.decorators.http import require_http_methods
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 from comments.forms import CommentForm
 from comments.models import Comment
@@ -12,6 +13,7 @@ POST is the only allowed HTTP method because
 The comment gets the author added based on the 
     logged in user and is then save to the database
 """
+@login_required
 @require_http_methods(["POST"])
 def add_comment(request, id):
     try:
