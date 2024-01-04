@@ -57,14 +57,17 @@ The pagination in this function helps to achieve the
 def all_images(request:HttpRequest):
     try:
         logging.debug("Entered into view function for loading all images")
-        images = ImageUpload.objects.all()
-        logging.info("Retrieved", str(images.count()), "image objects")
+        raw_images = ImageUpload.objects.all()
+        logging.info("Retrieved", str(raw_images.count()), "image objects")
         page = request.GET.get("page", 1)
-        paginator = Paginator(images, 1)
+        paginator = Paginator(raw_images, 1)
         logging.debug("Initializing pagination")
         try:
             images = paginator.page(page)
-            logging.info("On page", page)
+            logging.info("On page", str(page))
+            if int(page) > raw_images.count():
+                images = paginator.page(paginator.num_pages)
+                logging.info("Past last page")
         except PageNotAnInteger:
             images = paginator.page(1)
             logging.info("On page 1")
