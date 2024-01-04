@@ -1,5 +1,5 @@
 from django.views.decorators.http import require_http_methods
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpRequest
 from forms import ImageForm
 from models import ImageUpload
@@ -37,12 +37,39 @@ def analyze_image(request:HttpRequest):
                 logging.warning("No image text returned from Google API")
         else:
             logging.warning("Submitted form to analyze image is not valid")
-        return redirect()
+        return redirect("images")
     except:
         logging.exception("An exception occurred when trying to upload an image")
 
+"""
+This function renders the main page of the application
+It is GET only because any forms on it have an action
+    that go to a different URL to manipulate data
+The main page has all the uplaoded images on it,
+    and they render with infinite scrolling.
+"""
+@require_http_methods(["GET"])
 def all_images(request):
-    return render(request, "")
+    images = ImageUpload.objects.all()
+    form = ImageForm()
+    context = {
+        "images": images,
+        "form": form
+    }
+    return render(request, "list.html", context)
 
+"""
+This function renders the detail page for any image
+    uploaded to the application with its comments
+It is GET only because any forms on it have an action
+    that go to a different URL to manipulate data
+This page has all the comments associated with an 
+    image on it, and they render with infinite scrolling.
+"""
+@require_http_methods(["GET"])
 def one_image(request, id):
-    return render(request, "")
+    image = get_object_or_404(ImageUpload, id=id)
+    context = {
+        "image_upload": image
+    }
+    return render(request, "detail.html", context)

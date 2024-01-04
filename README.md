@@ -10,20 +10,37 @@
 * [Logging Levels](#logging)
 * [Other Information](#other)
 ## <a name="project" id="project"></a> Project Structure
+This project follows the <a href="https://docs.djangoproject.com/en/5.0/intro/tutorial01/">default structure</a> for a Django application.
+
+The root application configuration is in the worksheet folder and the comments and images contain the two Django apps. All urls are contained in the root worksheet urls.py (more on that in the API summary section). The images app contains all the static content and templates for the application; the comments app contains neither of these. Both comments and images map to database tables (more on that in the database schema section).
+
 ## <a name="tech" id="tech"></a> Tech Overview
 In addition to the required Django modules and standard Python libraries that form the base of the application, the following additional technologies were used:
 * **Google Image AI API**: This is the API used to analyze uploaded images and extract test from them. For more information on it, go <a href="https://cloud.google.com/vision/docs/ocr#vision_text_detection-python">here</a>.
 * **Bootstrap**: This is the base UI framework for the application so that everything has consistent colors and styling. For more information on it, go <a href="https://getbootstrap.com/docs/5.3/getting-started/introduction/">here</a>. 
 * **jQuery**: This is the extremely minimal JavaScript framework used for most of the required JavaScript functionality in the app, such as toggling. For more information on it, go <a href="https://jquery.com/">here</a>.
 * **Waypoints**: This is a JavaScript library used to enable infinite scrolling behavior. For more information on it, go <a href="http://imakewebthings.com/waypoints/guides/getting-started/">here</a>.
+
 ## <a name="api" id="api"></a> API Summary
 There are four API endpoints in the application:
 * `/analyze-image` (`POST` only):
 * `/images` (`GET` only):
 * `/image/<id>` (`GET` only):
 * `/image/<id>/comment` (`POST` only):
+
 ## <a name="database" id="database"></a> Database Schema
 There are two tables in the application:
+* comments: Represent comments under each processed image.
+* images: Represent each processed image
+
+The columns for these two tables are represented as follows:
+* comments:
+    * id: Primary key
+* images:
+    * id: Primary key
+
+The images and comments have a one to many relationship, where every image can have any number of comments.
+
 ## <a name="setup" id="setup"></a> Required Setup
 Each of the following steps only needs to be done once.
 
@@ -61,7 +78,7 @@ To create a starting database for the application, run the following two command
 
 `python manage.py migrate`
 
-If you want to start with data in your application, you can do so by then running the following command:
+If you want to start with default data in your application, you can do so by then running the following command:
 
 `python manage.py loaddata starter.json`
 
@@ -75,6 +92,8 @@ Then, answer the prompts that follow. Email can be left blank. The password will
 To start the application, run the following command:
 
 `python manage.py runserver`
+
+To manage the administrative aspects of the application, go to <a href="http://localhost:8000/admin">this link</a> while the application is running
 
 ## <a name="test" id="test"></a> Testing the Application
 All tests in the application are in same directories as the files they test.

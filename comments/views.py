@@ -1,6 +1,6 @@
 from django.views.decorators.http import require_http_methods
-from django.shortcuts import render
+from django.shortcuts import redirect
 
 @require_http_methods(["POST"])
 def add_comment(request, id):
-    return render(request, "")
+    return redirect("one_image", id=id)
