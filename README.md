@@ -18,7 +18,7 @@ The root application configuration is in the `worksheet` folder and the `comment
 In addition to the required Django modules and standard Python libraries that form the base of the application, the following additional technologies were used:
 * **Google Image AI API**: This is the API used to analyze uploaded images and extract test from them. For more information on it, go <a href="https://cloud.google.com/vision/docs/ocr#vision_text_detection-python">here</a>.
 * **Bootstrap**: This is the base UI framework for the application so that everything has consistent colors and styling. For more information on it, go <a href="https://getbootstrap.com/docs/5.3/getting-started/introduction/">here</a>. 
-* **jQuery**: This is the extremely minimal JavaScript framework used for most of the required JavaScript functionality in the app, such as toggling. For more information on it, go <a href="https://jquery.com/">here</a>.
+* **jQuery**: This is the extremely minimal JavaScript framework used for most of the required JavaScript functionality in the app. For more information on it, go <a href="https://jquery.com/">here</a>.
 * **Waypoints**: This is a JavaScript library used to enable infinite scrolling behavior. For more information on it, go <a href="http://imakewebthings.com/waypoints/guides/getting-started/">here</a>.
 
 ## <a name="api" id="api"></a> API Summary

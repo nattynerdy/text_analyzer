@@ -23,12 +23,33 @@
         <p>{{ image_upload.text }}</p>
     </div>
     <h2>Comments</h2>
-    {% for comment in image_upload.comments.all %}
-        <div class="comment-card">
-            <h3>{{ comment.author.username|default:"anonymous" }}</h3>
-            <p>{{ comment.text }}</p>
-        </div>
-    {% empty %}
-        <p>No comments</p>
-    {% endfor %}
+    <div class="infinite-container">
+        {% for comment in comments %}
+            <div class="comment-card infinite-item">
+                <h3>{{ comment.author.username|default:"anonymous" }}</h3>
+                <p>{{ comment.text }}</p>
+            </div>
+        {% empty %}
+            <p>No comments</p>
+        {% endfor %}
+    </div>
+
+    {% if comments.has_next %}
+        <a class="infinite-more-link" href="{% url 'one_image' image_upload.id %}?page={{ comments.next_page_number }}">More</a>
+    {% endif %}
+
+    <div class="loading" style="display: none;">
+        Loading...
+    </div>
+    <script>
+        var infinite = new Waypoint.Infinite({
+            element: $('.infinite-container')[0],
+            onBeforePageLoad: function () {
+                $('.loading').show();
+            },
+            onAfterPageLoad: function ($items) {
+                $('.loading').hide();
+            }
+        });
+    </script>
 {% endblock content %}

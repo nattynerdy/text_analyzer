@@ -6,6 +6,7 @@ from django.http import HttpRequest
 from images.forms import ImageForm, LoginForm
 from images.models import ImageUpload
 from comments.forms import CommentForm
+from comments.models import Comment
 from api import google
 import logging
 
@@ -99,9 +100,26 @@ def one_image(request, id):
         image = get_object_or_404(ImageUpload, id=id)
         logging.info("Retrieved image object with id", id)
         form = CommentForm()
+        raw_comments = Comment.objects.filter(image=image)
+        page = request.GET.get("page", 1)
+        paginator = Paginator(raw_comments, 1)
+        logging.debug("Initializing pagination")
+        try:
+            comments = paginator.page(page)
+            logging.info("On page", str(page))
+            if int(page) > raw_comments.count():
+                comments = paginator.page(paginator.num_pages)
+                logging.info("Past last page")
+        except PageNotAnInteger:
+            comments = paginator.page(1)
+            logging.info("On page 1")
+        except EmptyPage:
+            comments = paginator.page(paginator.num_pages)
+            logging.info("On last page")
         context = {
             "image_upload": image,
-            "form": form
+            "form": form,
+            "comments": comments
         }
         logging.debug("About to render page")
         return render(request, "detail.html", context)
