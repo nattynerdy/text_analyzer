@@ -21,8 +21,8 @@ from comments import views as comments
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("analyze-image", images.analyze_image),
-    path("images", images.all_images), 
-    path("image/<int:id>", images.one_image),
-    path("image/<int:id>/comment", comments.get_comments)
+    path("analyze-image", images.analyze_image, name="analyze_image"),
+    path("images", images.all_images, name="images"), 
+    path("image/<int:id>", images.one_image, name="one_image"),
+    path("image/<int:id>/comment", comments.add_comment, name="add_comment")
 ]
