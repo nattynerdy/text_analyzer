@@ -16,7 +16,7 @@
     <h2>Uploaded Images</h2>
     <div class="infinite-container">
         {% for image in images %}
-            <div class="image-card">
+            <div class="image-card infinite-item">
                 <img src="{{ image.image.url }}" alt="User-uploaded image containing text described below">
                 <br><br>
                 <p>{{ image.text }}</p>
@@ -27,6 +27,11 @@
             <p>No images</p>
         {% endfor %}
     </div>
+
+    {% if images.has_next %}
+        <a class="infinite-more-link" href="{% url "images" %}?page={{ images.next_page_number }}">More</a>
+    {% endif %}
+
     <div class="loading" style="display: none;">
         Loading...
     </div>

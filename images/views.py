@@ -54,7 +54,7 @@ The pagination in this function helps to achieve the
     infinite scrolling effect ont he main page
 """
 @require_http_methods(["GET"])
-def all_images(request):
+def all_images(request:HttpRequest):
     try:
         logging.debug("Entered into view function for loading all images")
         images = ImageUpload.objects.all()
