@@ -6,19 +6,22 @@
 
 {% block content %}
     <h1>All Images<h1>
-    <h2>Upload new image</h2>
+    <h2>Upload new image <button class="toggle-button btn btn-primary">+</button></h2>
     <form method="POST" enctype="multipart/form-data" action="{% url 'analyze_image' %}">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Upload</button>
+        <button type="submit" class="btn btn-primary">Upload</button>
     </form>
+    <br>
     <h2>Uploaded Images</h2>
     {% for image in images %}
-        <div>
+        <div class="image-card">
             <img src="{{ image.image.url }}" alt="User-uploaded image containing text described below">
+            <br><br>
             <p>{{ image.text }}</p>
-            <a href="{% url 'one_image' image.id %}">Go to image details</a>
+            <a href="{% url 'one_image' image.id %}" class="btn btn-primary">Go to image details</a>
         </div>
+        <br>
     {% empty %}
         <p>No images</p>
     {% endfor %}

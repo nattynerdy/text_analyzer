@@ -1,0 +1,12 @@
+body
+{
+    margin: 2%;
+}
+
+.image-card, .comment-card
+{
+    margin: 2%;
+    background-color: lightblue;
+    border-radius: 1%;
+    padding: 2%;
+}
