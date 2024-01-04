@@ -1,3 +1,10 @@
 from django.test import TestCase
 
-# Create your tests here.
+class CommentTests(TestCase):
+    def comment_model_exists(self):
+        try:
+            from comments.models import Comment
+        except ModuleNotFoundError:
+            self.fail("No model found")
+    
+    
