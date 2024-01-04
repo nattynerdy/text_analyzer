@@ -27,7 +27,7 @@ LOGGING = {
     "root": {
         "handlers": ["console"],
         #To change the logging level, edit this line
-        "level": "INFO",
+        "level": "WARNING",
     },
 }
 

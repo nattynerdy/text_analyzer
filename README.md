@@ -87,9 +87,7 @@ To create a starting database for the application, run the following two command
 
 `python manage.py migrate`
 
-If you want to start with default data in your application, you can do so by then running the following command:
-
-`python manage.py loaddata starter.json`
+The application begind with an empty database
 
 To create a user account, run the following command:
 
