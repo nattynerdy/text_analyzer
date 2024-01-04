@@ -1,13 +1,21 @@
 {% block title %}
-    Upload Images
+    All Images
 {% endblock title %}
 
 {% block content %}
+    <h1>All Images<h1>
+    <h2>Upload new image</h2>
     <form method="POST" enctype="multipart/form-data" action="{% url 'analyze_image' %}">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Upload</button>
     </form>
-
-    
+    <h2>Uploaded Images</h2>
+    {% for image in images %}
+        <div>
+            <img src="{{ image.image.url }}" alt="User-uploaded image containing text described below">
+            <p>{{ image.text }}</p>
+            <a href="{% url 'one_image' image.id %}">Go to image details</a>
+        </div>
+    {% endfor %}
 {% endblock content %}

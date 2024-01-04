@@ -50,13 +50,19 @@ The main page has all the uplaoded images on it,
 """
 @require_http_methods(["GET"])
 def all_images(request):
-    images = ImageUpload.objects.all()
-    form = ImageForm()
-    context = {
-        "images": images,
-        "form": form
-    }
-    return render(request, "list.html", context)
+    try:
+        logging.debug("Entered into view function for loading all images")
+        images = ImageUpload.objects.all()
+        logging.info("Retrieved", str(images.count()), "image objects")
+        form = ImageForm()
+        context = {
+            "images": images,
+            "form": form
+        }
+        logging.debug("About to render page")
+        return render(request, "list.html", context)
+    except:
+        logging.exception("An exception occurred when trying to load all the images")
 
 """
 This function renders the detail page for any image
@@ -68,8 +74,14 @@ This page has all the comments associated with an
 """
 @require_http_methods(["GET"])
 def one_image(request, id):
-    image = get_object_or_404(ImageUpload, id=id)
-    context = {
-        "image_upload": image
-    }
-    return render(request, "detail.html", context)
+    try:
+        logging.debug("Entered into view function for loading image detail page")
+        image = get_object_or_404(ImageUpload, id=id)
+        logging.info("Retrieved image object with id", id)
+        context = {
+            "image_upload": image
+        }
+        logging.debug("About to render page")
+        return render(request, "detail.html", context)
+    except:
+        logging.exception("An exception occurred when trying to load details on an image")
