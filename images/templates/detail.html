@@ -20,5 +20,7 @@
             <h3>{{ comment.author.username|default:"anonymous" }}</h3>
             <p>{{ comment.text }}</p>
         </div>
+    {% empty %}
+        <p>No comments</p>
     {% endfor %}
 {% endblock content %}

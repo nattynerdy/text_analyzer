@@ -17,5 +17,7 @@
             <p>{{ image.text }}</p>
             <a href="{% url 'one_image' image.id %}">Go to image details</a>
         </div>
+    {% empty %}
+        <p>No images</p>
     {% endfor %}
 {% endblock content %}
