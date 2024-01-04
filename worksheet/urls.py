@@ -4,8 +4,13 @@ from django.conf import settings
 from django.conf.urls.static import static
 from images import views as images
 from comments import views as comments
+from django.shortcuts import redirect
+
+def redirect_to_list_images(request):
+    return redirect("images")
 
 urlpatterns = [
+    path("", redirect_to_list_images, name="home_page"),
     path("admin/", admin.site.urls),
     path("analyze-image", images.analyze_image, name="analyze_image"),
     path("images", images.all_images, name="images"), 
