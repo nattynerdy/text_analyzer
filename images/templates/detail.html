@@ -6,7 +6,7 @@
 
 {% block content %}
     <h1>Image Details</h1>
-    {% if user.isauthenticated %}
+    {% if user.is_authenticated %}
         <h2>Add comment on image</h2>
         <form method="POST" action="{% url 'add_comment' image_upload.id %}">
             {% csrf_token %}
@@ -14,12 +14,12 @@
             <button type="submit">Comment</button>
         </form>
     {% else %}
-        <p>You must login to see this content</p>
+        <p>You must <a href="{% url "login" %}">login</a> to see this content</p>
     {% endif %}
     <img src="{{ image_upload.image.url }}" alt="User-uploaded image containing text described below">
     <p>{{ image_upload.text }}</p>
     <h2>Comments</h2>
-    {% for comment in image.comments.all %}
+    {% for comment in image_upload.comments.all %}
         <div>
             <h3>{{ comment.author.username|default:"anonymous" }}</h3>
             <p>{{ comment.text }}</p>

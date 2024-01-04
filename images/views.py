@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate, login
 from django.http import HttpRequest
 from images.forms import ImageForm, LoginForm
 from images.models import ImageUpload
+from comments.forms import CommentForm
 from api import google
 import logging
 
@@ -79,8 +80,10 @@ def one_image(request, id):
         logging.debug("Entered into view function for loading image detail page")
         image = get_object_or_404(ImageUpload, id=id)
         logging.info("Retrieved image object with id", id)
+        form = CommentForm()
         context = {
-            "image_upload": image
+            "image_upload": image,
+            "form": form
         }
         logging.debug("About to render page")
         return render(request, "detail.html", context)

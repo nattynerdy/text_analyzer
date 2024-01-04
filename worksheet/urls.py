@@ -11,6 +11,7 @@ def redirect_to_list_images(request):
 
 urlpatterns = [
     path("", redirect_to_list_images, name="home_page"),
+    path("login", images.user_login, name="login"),
     path("admin/", admin.site.urls),
     path("analyze-image", images.analyze_image, name="analyze_image"),
     path("images", images.all_images, name="images"), 

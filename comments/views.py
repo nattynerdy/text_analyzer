@@ -1,8 +1,9 @@
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect
+from django.shortcuts import redirect, get_object_or_404
 from comments.forms import CommentForm
 from comments.models import Comment
+from images.models import ImageUpload
 import logging
 
 """
@@ -17,17 +18,20 @@ The comment gets the author added based on the
 @require_http_methods(["POST"])
 def add_comment(request, id):
     try:
-        logging.debug("Entered into view function for adding comments")
+        logging.debug("Entered into view function for adding comments for image with id", str(id))
         form = CommentForm(request.POST)
         if form.is_valid():
             logging.info("Submitted form to add comment is valid")
             comment:Comment = form.save(False)
             comment.author = request.user 
             logging.debug("Comment has associated user")
+            comment.image = get_object_or_404(ImageUpload, id=id)
+            logging.debug("Comment has associated image")
             comment.save()
             logging.debug("Comment is saved to the database")
         else:
             logging.warning("Submitted form to add comment is not valid")
-        return redirect("one_image", id=id)
     except:
         logging.exception("An exception occurred when trying to add a comment")
+    finally:
+        return redirect("one_image", id=id)
