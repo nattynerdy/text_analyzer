@@ -14,15 +14,31 @@
     </form>
     <br>
     <h2>Uploaded Images</h2>
-    {% for image in images %}
-        <div class="image-card">
-            <img src="{{ image.image.url }}" alt="User-uploaded image containing text described below">
-            <br><br>
-            <p>{{ image.text }}</p>
-            <a href="{% url 'one_image' image.id %}" class="btn btn-primary">Go to image details</a>
-        </div>
-        <br>
-    {% empty %}
-        <p>No images</p>
-    {% endfor %}
+    <div class="infinite-container">
+        {% for image in images %}
+            <div class="image-card">
+                <img src="{{ image.image.url }}" alt="User-uploaded image containing text described below">
+                <br><br>
+                <p>{{ image.text }}</p>
+                <a href="{% url 'one_image' image.id %}" class="btn btn-primary">Go to image details</a>
+            </div>
+            <br>
+        {% empty %}
+            <p>No images</p>
+        {% endfor %}
+    </div>
+    <div class="loading" style="display: none;">
+        Loading...
+    </div>
+    <script>
+        var infinite = new Waypoint.Infinite({
+            element: $('.infinite-container')[0],
+            onBeforePageLoad: function () {
+                $('.loading').show();
+            },
+            onAfterPageLoad: function ($items) {
+                $('.loading').hide();
+            }
+        });
+    </script>
 {% endblock content %}

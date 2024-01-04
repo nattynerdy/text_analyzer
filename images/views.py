@@ -1,6 +1,7 @@
 from django.views.decorators.http import require_http_methods
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.http import HttpRequest
 from images.forms import ImageForm, LoginForm
 from images.models import ImageUpload
@@ -49,6 +50,8 @@ It is GET only because any forms on it have an action
     that go to a different URL to manipulate data
 The main page has all the uplaoded images on it,
     and they render with infinite scrolling.
+The pagination in this function helps to achieve the 
+    infinite scrolling effect ont he main page
 """
 @require_http_methods(["GET"])
 def all_images(request):
@@ -56,6 +59,18 @@ def all_images(request):
         logging.debug("Entered into view function for loading all images")
         images = ImageUpload.objects.all()
         logging.info("Retrieved", str(images.count()), "image objects")
+        page = request.GET.get("page", 1)
+        paginator = Paginator(images, 1)
+        logging.debug("Initializing pagination")
+        try:
+            images = paginator.page(page)
+            logging.info("On page", page)
+        except PageNotAnInteger:
+            images = paginator.page(1)
+            logging.info("On page 1")
+        except EmptyPage:
+            images = paginator.page(paginator.num_pages)
+            logging.info("On last page")
         form = ImageForm()
         context = {
             "images": images,
