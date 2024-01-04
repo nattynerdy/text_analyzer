@@ -2,6 +2,16 @@ from google.cloud import vision
 from dotenv import load_dotenv
 import logging
 
+"""
+This function isolates the Google Image AI API functionality.
+The input is the bytes of the image file to be analyzed
+The output is any text that is found in the image
+The function requires the .env file to be set up
+    as described in the README so that the 
+    API client can be properly authenticated
+Documentation for the API used can be found here:
+    https://cloud.google.com/vision/docs/ocr#vision_text_detection-python
+"""
 def detect_text(file_contents:bytes):
     logging.debug("Entered into function for Google API")
     return_value = ""
@@ -14,7 +24,7 @@ def detect_text(file_contents:bytes):
         image = vision.Image(content=file_contents)
         logging.debug("Sending image to the Google API client")
         response = client.text_detection(image=image)
-        logging.debug("Response from client recieved")
+        logging.info("Response from client recieved")
         texts = response.text_annotations
         return_value += "Texts:"
         for text in texts:
